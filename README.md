@@ -11,6 +11,11 @@ ScrapeC is a modern systems programming language combining the best of C and Rus
 
 See `scrapec/SPEC.md` and `scrapec/ROADMAP.md` for details.
 
+## Contributing & Roadmap
+- See [CONTRIBUTING.md](../CONTRIBUTING.md) for how to get involved
+- See [CODE_OF_CONDUCT.md](../CODE_OF_CONDUCT.md) for community guidelines
+- See [ROADMAP.md](../ROADMAP.md) for project priorities and next steps
+
 ---
 
 # Why ScrapeC?

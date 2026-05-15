@@ -1,18 +1,10 @@
 // src/main.rs
 // ScrapeC Reference Compiler (Stub)
 
-mod lexer;
-mod parser;
-mod types;
-mod codegen;
-mod ffi;
-mod macros;
-mod asyncmod;
-mod smartptr;
-mod unsafe;
-mod doc;
-use lexer::{lex, Token};
-use parser::{parse, AstNode};
+use scrapec::lexer::{lex, Token};
+use scrapec::parser::{parse, AstNode};
+use scrapec::types::{self, TypeEnv};
+use scrapec::{codegen, ffi, macros, asyncmod, smartptr, r#unsafe as sc_unsafe, doc};
 
 fn main() {
     let source = "fn main() { let x = 42; }";
@@ -20,13 +12,14 @@ fn main() {
     println!("ScrapeC tokens: {:?}", tokens);
     let ast = parse(&tokens);
     println!("ScrapeC AST: {:?}", ast);
-    // Type inference (stub)
+    // Type inference
+    let mut type_env = TypeEnv::new();
     for node in &ast {
-        let ty = types::infer_type(node);
+        let ty = types::infer_type(node, &mut type_env);
         println!("Type: {:?}", ty);
     }
     // Codegen (stub)
-    let c_code = codegen::generate_c(&ast);
+    let c_code = codegen::generate_c(&ast, &type_env);
     println!("Generated C code:\n{}", c_code);
     // FFI header (stub)
     println!("C header:\n{}", ffi::generate_c_header());
@@ -39,7 +32,9 @@ fn main() {
     // Smart pointer (stub)
     let _boxed = smartptr::Boxed::new(123);
     // Unsafe (stub)
-    unsafe { let _ptr = unsafe::raw_ptr(&_boxed); }
+    unsafe {
+        let _ptr = sc_unsafe::raw_ptr(&_boxed);
+    }
     // Doc/test (stub)
     let _docs = doc::extract_docs(source);
     doc::run_tests();
